@@ -17,3 +17,14 @@ func TestShortestToChar(t *testing.T) {
 		}
 	}
 }
+
+func TestBackspaceCompare(t *testing.T) {
+	vals := [5][2]string{{"ab#d", "ad#d"}, {"ab##", "c#d#"}, {"a##c", "#a#c"}, {"a#c", "b"}, {"nzp#o#g", "b#nzp#o#g"}}
+	expected := [5]bool{true, true, true, false, true}
+
+	for i := 0; i < len(vals); i++ {
+		if expected[i] != backspaceCompare(vals[i][0], vals[i][1]) {
+			t.Error(vals[i][0], "and", vals[i][1], "match was", !expected[i], "expected", expected[i])
+		}
+	}
+}

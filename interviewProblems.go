@@ -40,3 +40,44 @@ func ShortestToChar(S string, C byte) []int {
 	}
 	return result
 }
+
+//given two strings as a series of characters with # representing backspace (prev char was deleted)
+//check if the two strings are identical
+//https://leetcode.com/problems/backspace-string-compare/
+//0 ms, beats 100% of go submissions
+func backspaceCompare(S string, T string) bool {
+	sIndex := len(S) - 1
+	tIndex := len(T) - 1
+	for sIndex > -1 && tIndex > -1 {
+		sIndex = getIndOfNextChar(S, sIndex)
+		tIndex = getIndOfNextChar(T, tIndex)
+		if sIndex == -1 || tIndex == -1 {
+			break
+		}
+		if S[sIndex] != T[tIndex] {
+			return false
+		}
+		sIndex--
+		tIndex--
+	}
+	if sIndex > -1 && getIndOfNextChar(S, sIndex) > -1 {
+		return false
+	}
+	if tIndex > -1 && getIndOfNextChar(T, tIndex) > -1 {
+		return false
+	}
+	return true
+}
+
+func getIndOfNextChar(S string, index int) int {
+	backCount := 0
+	for index > -1 && (backCount != 0 || S[index] == '#') {
+		if S[index] == '#' {
+			backCount++
+		} else {
+			backCount--
+		}
+		index--
+	}
+	return index
+}

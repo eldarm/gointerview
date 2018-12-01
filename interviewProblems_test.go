@@ -28,3 +28,33 @@ func TestBackspaceCompare(t *testing.T) {
 		}
 	}
 }
+
+func TestRemoveDuplicates(t *testing.T) {
+	input := []int{1, 1, 2}
+	expected := []int{1, 2}
+
+	result := removeDuplicates(input)
+	if len(expected) != result {
+		t.Error("incorrect result length, expected", len(expected), "but got", result)
+	}
+
+	for i := 0; i < len(expected); i++ {
+		if input[i] != expected[i] {
+			t.Error("incorrectly sorted at index", i, "expected", expected[i], "but got", input[i])
+		}
+	}
+
+	input = []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
+	expected = []int{0, 1, 2, 3, 4}
+	result = removeDuplicates(input)
+	if len(expected) != result {
+		t.Error("incorrect result length, expected", len(expected), "but got", result)
+	}
+
+	for i := 0; i < len(expected); i++ {
+		if input[i] != expected[i] {
+			t.Error("incorrectly sorted at index", i, "expected", expected[i], "but got", input[i])
+		}
+	}
+
+}

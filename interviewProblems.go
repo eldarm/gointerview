@@ -81,3 +81,16 @@ func getIndOfNextChar(S string, index int) int {
 	}
 	return index
 }
+
+//remove duplicates from sorted array in-place, return size of sub-array with sorted vals
+//60 ms for 160 test cases, beats 100% of golang submissions
+func removeDuplicates(nums []int) int {
+	nextWrite := 1
+	for i := 1; i < len(nums); i++ {
+		if nums[i] != nums[i-1] {
+			nums[nextWrite] = nums[i]
+			nextWrite++
+		}
+	}
+	return nextWrite
+}

@@ -1,44 +1,47 @@
-//Package gointerview is a collection of interview problems solved in go
+// Package gointerview is a collection of interview problems solved in go
 package gointerview
 
-//ShortestToChar is a function that, given a string and a character,
-//returns an int arr that shows the distance
-//to the nearest instance of that character for each char in string
-//we are guaranteed at least a single instance of the requested character
-//https://leetcode.com/problems/shortest-distance-to-a-character/
-//4 ms, beats 100% of golang submissions
-func ShortestToChar(S string, C byte) []int {
-	var fromLeft = make([]int, len(S))
-	var fromRight = make([]int, len(S))
-	var lastLeftMatch = -1
-	var lastRightMatch = len(S)
-	for i := 0; i < len(S); i++ {
-		if S[i] == C {
+// ShortestToChar is a function that, given a string and a character,
+// returns an int arr that shows the distance
+// to the nearest instance of that character for each char in string
+// we are guaranteed at least a single instance of the requested character
+// https://leetcode.com/problems/shortest-distance-to-a-character/
+// 4 ms, beats 100% of golang submissions
+func ShortestToChar(s string, c byte) []int {
+	fromLeft := make([]int, len(s))
+	fromRight := make([]int, len(s))
+	lastLeftMatch := -1
+	lastRightMatch := len(s)
+	
+	for i, sc := range s {
+		if sc == c {
 			lastLeftMatch = i
 		}
 		fromLeft[i] = lastLeftMatch
-		var rightIndex = len(S) - 1 - i
-		if S[rightIndex] == C {
-			lastRightMatch = rightIndex
+		rx := len(s) - 1 - i
+		if s[rx] == c {
+			lastRightMatch = rx
 		}
-		fromRight[rightIndex] = lastRightMatch
+		fromRight[rx] = lastRightMatch
 	}
 
-	var result = make([]int, len(S))
-	for j := 0; j < len(S); j++ {
+	r := make([]int, len(s))
+	for j :=  range s {
 		if fromLeft[j] == -1 {
-			result[j] = fromRight[j] - j
-		} else if fromRight[j] == len(S) {
-			result[j] = j - fromLeft[j]
-		} else {
-			if j-fromLeft[j] <= fromRight[j]-j {
-				result[j] = j - fromLeft[j]
-			} else {
-				result[j] = fromRight[j] - j
-			}
+			r[j] = fromRight[j] - j
+			continue
 		}
+		if fromRight[j] == len(s) {
+			r[j] = j - fromLeft[j]
+			continue
+		}
+		if j-fromLeft[j] <= fromRight[j]-j {
+			r[j] = j - fromLeft[j]
+			continue
+		}
+		r[j] = fromRight[j] - j
 	}
-	return result
+	return r
 }
 
 //given two strings as a series of characters with # representing backspace (prev char was deleted)
